@@ -157,13 +157,13 @@ const randomVelocityChange = () => {
   });
 };
 
-const fiftyFifty = () => Math.random() < 0.5;
+const halfChance = () => Math.random() < 0.5;
 
 const randomDirectionChange = () => {
   circles.map((circle) => {
     const { vx, vy } = circle;
-    if (fiftyFifty) {
-      if (fiftyFifty) {
+    if (halfChance) {
+      if (halfChance) {
         circle.vy = vx;
       } else {
         circle.vx = vy;
