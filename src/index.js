@@ -25,7 +25,7 @@ const state = {
   ratio: 0,
   score: 500,
   tries: 2,
-  moveTime: 3000,
+  moveTime: 7000,
   fails: 0,
   velocity: 1,
   rounds: [{ number: 0 }],
@@ -125,9 +125,10 @@ const clearCanvas = () => {
   ctx.fillRect(x, y, w, h);
 };
 
-const stop = (intervalId) => {
+const stop = (intervalId, velChangeId) => {
   cancelAnimationFrame(state.animationFrameReq);
   clearInterval(intervalId);
+  clearInterval(velChangeId);
   state.isRunning = false;
 };
 
@@ -139,8 +140,9 @@ const startRound = () => {
 
   requestAnimationFrame(run);
   state.isRunning = true;
-  const dirChangeId = setInterval(randomDirectionChange, state.moveTime / 3);
-  setTimeout(() => stop(dirChangeId), state.moveTime);
+  const dirChangeId = setInterval(randomDirectionChange, state.moveTime / 4);
+  const velChangeId = setInterval(randomVelocityChange, state.moveTime / 4);
+  setTimeout(() => stop(dirChangeId, velChangeId), state.moveTime);
 
   setTimeout(turnAllCirclesGreen, state.moveTime / 2);
 };
@@ -151,8 +153,12 @@ const turnAllCirclesGreen = () =>
 const randomVelocityChange = () => {
   circles.map((circle) => {
     if (Math.random() < 0.5) {
-      circle.vx += 1;
-      circle.vy += circle.vy + 2000;
+      circle.vy *= 2;
+      circle.vx *= 2;
+      setTimeout(() => {
+        circle.vy /= 2;
+        circle.vx /= 2;
+      }, 500);
     }
   });
 };
