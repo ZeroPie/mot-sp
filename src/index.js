@@ -27,6 +27,8 @@ const state = {
   tries: 2,
   moveTime: 7000,
   fails: 0,
+  velocityChangeProbablity: 0.3,
+  directionChangeProbablity: 0.3,
   velocity: 1,
   rounds: [{ number: 0 }],
   correctAnswers: 0
@@ -152,7 +154,7 @@ const turnAllCirclesGreen = () =>
 
 const randomVelocityChange = () => {
   circles.map((circle) => {
-    if (Math.random() < 0.5) {
+    if (Math.random() < state.velocityChangeProbablity) {
       circle.vy *= 2;
       circle.vx *= 2;
       setTimeout(() => {
@@ -163,16 +165,14 @@ const randomVelocityChange = () => {
   });
 };
 
-const halfChance = () => Math.random() < 0.5;
-
 const randomDirectionChange = () => {
   circles.map((circle) => {
     const { vx, vy } = circle;
-    if (halfChance) {
-      if (halfChance) {
-        circle.vy = vx;
+    if (Math.random() < state.directionChangeProbablity) {
+      if (Math.random() < state.directionChangeProbablity) {
+        circle.vy = -vx;
       } else {
-        circle.vx = vy;
+        circle.vx = -vy;
       }
     }
   });
